@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33213.308
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortCleanLinqExtensions", "ShortCleanLinqExtensions.csproj", "{1203C610-0927-488F-8C9F-700B4A184502}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShortCleanLinqExtensions.Test", "..\ShortCleanLinqExtensions.Test\ShortCleanLinqExtensions.Test.csproj", "{1DE44894-F3B2-4832-89BF-46F0DD2E210C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1203C610-0927-488F-8C9F-700B4A184502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1203C610-0927-488F-8C9F-700B4A184502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1203C610-0927-488F-8C9F-700B4A184502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1203C610-0927-488F-8C9F-700B4A184502}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DE44894-F3B2-4832-89BF-46F0DD2E210C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DE44894-F3B2-4832-89BF-46F0DD2E210C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DE44894-F3B2-4832-89BF-46F0DD2E210C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DE44894-F3B2-4832-89BF-46F0DD2E210C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C9297616-086B-4907-A71F-86A856E8DE17}
+	EndGlobalSection
+EndGlobal
