@@ -1,63 +1,151 @@
-﻿Short clean extensions
+# Short clean linq extensions
+
+Sce is a .NET Nuget extensions to make things easier.
+
+## Installation
+
+.NET CLI
+
+```bash
+dotnet add package ShortCleanLinqExtensions --version 1.0.0
+```
+
+Package Manager Console
+
+```bash
+NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.0
+```
+
+## Usage
+
+```csharp
+using ShortCleanLinqExtensions.src.Extensions;
+
+# Title
+"ula leila".Title(); 
+// Output: Ula Leila 
+
+# Slug
+"ula leila".Stug();
+// Output: ula-leila
 
 
-Many methods to use use project
+# Mask
+"ula leila".Mask("*", 4);
+// Output: ula *****
 
+# Snake Case
+"UlaLeila".Snake();
+// Output: ula_leila
 
+# Is Json
+"[1,2,3]".IsJson();
+// Output: true
+
+# List To Json
 var list = new List<string>() { "1", "2", "3" };
+list.ToJson();
+// Output: ["1","2","3"]
+
+# List Collapse
 var listC1 = new List<int>() { 4, 5, 6, 7 };
 var listC2 = new List<int>() { 4, 5, 6, 7 };
 
-//title
-"ula leila".Title() => Ula Leila
-
-//slug
-ula leila".Stug() => ula-leila
-
-//mask
-"ula leila".Mask("*", 4) => ula *****
-
-//snake case
-"UlaLeila".Snake() => ula_leila. 
-
-//isJson
-"[1,2,3]".IsJson() => true
-
-//toJson
-list.ToJson() => ["1","2","3"]
-
-//collapse
 var manyList = new List<List<int>>() { listC1, listC2 };
 var listCollapsed = manyList
     .Collapse()
     .ToList();
+Console.WriteLine("Collapse => " + listCollapsed.ToJson());
+// Output: [4,5,6,7,4,5,6,7]
 
-listCollapsed => [4,5,6,7,4,5,6,7]
 
-// paginte api
+# Paginate API
+var list = new List<string>() { "1", "2", "3" };
 var listPagineted = list
 .AsQueryable()
 .Paginate(1, 10);
+// Output: {"Page":1,"Limit":10,"FirstPage":null,"LastPage":null,"Total":3,"NextPage":null,"PreviousPage":null,"Data":["1","2","3"]}
 
-//paginate web mvc or razor pages (have method .links -> create paginate html with css)
 
 
-Paginate api => listPagineted => {"Page":1,"Limit":10,"FirstPage":null,"LastPage":null,"Total":3,"NextPage":null,"PreviousPage":null,"Data":["1","2","3"]};
+# Paginate MVC or Razor Pages
+   public class IndexModel : PageModel
+    {
+        private readonly ILogger<IndexModel> _logger;
+        public readonly List<string> _dataSet;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public PagedResponse<List<string>> Items { get; set; }
+        public IndexModel(ILogger<IndexModel> logger, IHttpContextAccessor httpContextAccessor)
+        {
+            _logger = logger;
+            _dataSet = new List<string>()
+            {
+                "joao",
+                "joao1",
+                "joao2",
+                "joao3",
+                "joao4",
+                "joao5",
+                "joao6",
+                "joao7",
+            };
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-//When
+        public void OnGet([FromQuery] int page = 1, [FromQuery] int limit = 2)
+        {       
+             Items = _dataSet
+                .AsQueryable()
+                .Paginate(page, limit, Request, _httpContextAccessor);
+        }
+    }
+
+    ...Index.cshtml
+
+       @Html.Raw(Model.Items.Links())
+
+       //output:
+```
+<img src="./DOC/paginate-web.png"  />
+
+```csharp
+
+# When
 bool condition = true;
-
 var newListFiltered = listC1
     .AsQueryable()
     .When(condition, l => l.Equals(4))
     .ToList();
+// Output: [4]
 
-newListFiltered => [4]
 
-//Diff
+# Diff
 List<int> firstList = new List<int>() { 1, 2, 3, 4, 5 };
 List<int> secondList = new List<int>() { 2, 4, 6, 8 };
-
 IEnumerable<int> diff = firstList.Diff(secondList);
-String.Join(',', diff) => 1,3,5
 
+// Output: String.Join(',', diff) => 1,3,5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first
+to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
