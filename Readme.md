@@ -7,13 +7,13 @@ Sce is a .NET Nuget extensions to make things easier.
 .NET CLI
 
 ```bash
-dotnet add package ShortCleanLinqExtensions --version 1.0.1
+dotnet add package ShortCleanLinqExtensions --version 1.0.2
 ```
 
 Package Manager Console
 
 ```bash
-NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.1
+NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.2
 ```
 
 ## Usage
