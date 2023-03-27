@@ -24,7 +24,7 @@
 
 	<PropertyGroup>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
-		<PackageProjectUrl>https://github.com/salesHgabriel/ShortCleanExtensions</PackageProjectUrl>
+		<PackageProjectUrl>https://github.com/salesHgabriel/ShortCleanLinqExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/salesHgabriel/ShortCleanLinqExtensions</RepositoryUrl>
 		<PackageTags>nuget</PackageTags>
 		<FileVersion>1.0.2</FileVersion>
