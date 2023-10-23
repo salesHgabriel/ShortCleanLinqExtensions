@@ -10,7 +10,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
     public static class DIScannerExtension
     {
         /// <summary>
-        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService ou ISingletonService) and apply register native
+        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService or ISingletonService) and apply register native
         /// )
         /// </summary>
         /// <param name="services"></param>
@@ -84,7 +84,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
         }
 
         /// <summary>
-        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService ou ISingletonService) and apply register using nuget scrutor
+        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService or ISingletonService) and apply register using nuget scrutor
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
