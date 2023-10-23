@@ -14,11 +14,15 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+    <None Include="C:\Users\Gabriel\Source\Repos\ShortCleanLinqExtensions\ShortCleanLinqExtensions\.editorconfig" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.8.0" />
     <PackageReference Include="Microsoft.AspNetCore.WebUtilities" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
+	  <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Scrutor" Version="4.2.2" />
   </ItemGroup>
 
 
@@ -37,6 +41,10 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\Gabriel\Source\Repos\ShortCleanLinqExtensions\ShortCleanLinqExtensions\.editorconfig" />
   </ItemGroup>
 
 </Project>
