@@ -31,9 +31,9 @@
 		<PackageProjectUrl>https://github.com/salesHgabriel/ShortCleanLinqExtensions</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/salesHgabriel/ShortCleanLinqExtensions</RepositoryUrl>
 		<PackageTags>nuget</PackageTags>
-		<FileVersion>1.0.3</FileVersion>
+		<FileVersion>1.0.4</FileVersion>
 		<AssemblyVersion>1.0.0.1</AssemblyVersion>
-		<Version>1.0.3</Version>
+		<Version>1.0.4</Version>
 	</PropertyGroup>
 
   <ItemGroup>
