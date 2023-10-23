@@ -125,7 +125,38 @@ List<int> secondList = new List<int>() { 2, 4, 6, 8 };
 IEnumerable<int> diff = firstList.Diff(secondList);
 
 // Output: String.Join(',', diff) => 1,3,5
+```
 
+```csharp
+
+# Automatic dependency injection scanner 
+
+## You interfaces you need add extend the (IScopedService, ISingletonService or ISingletonService) 
+
+Sample: 
+
+    public interface ITest : IScopedService
+    {
+        decimal Calculate(int itemA, int itemB);
+    } 
+    
+    ...
+    
+    public class Test : ITest
+    {
+        public decimal Calculate(int itemA, int itemB) => itemA + itemB;
+    }
+
+
+
+## You Have two option you can add with nuget or native
+Settings: 
+
+1 - builder.Services.AddDIScannerIOC(); // native
+or 
+2 - builder.Services.AddDIScannerIOCWithScrutor(); // with nuget scrutor
+
+```
 
 
 
