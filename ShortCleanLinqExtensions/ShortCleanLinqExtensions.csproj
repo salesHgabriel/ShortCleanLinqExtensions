@@ -34,6 +34,7 @@
 		<FileVersion>1.0.4</FileVersion>
 		<AssemblyVersion>1.0.0.1</AssemblyVersion>
 		<Version>1.0.4</Version>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
 	</PropertyGroup>
 
   <ItemGroup>
