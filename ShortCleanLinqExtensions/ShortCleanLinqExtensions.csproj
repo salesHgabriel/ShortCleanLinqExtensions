@@ -7,6 +7,7 @@
     <Title>Short Clean Extension</Title>
     <Description>Projeoto com vários metodos de extensão para string, asqueryable e list</Description>
     <PackageReadmeFile>Readme.md</PackageReadmeFile>
+	<EnablePackageValidation>true</EnablePackageValidation>
   </PropertyGroup>
 
   <ItemGroup>
