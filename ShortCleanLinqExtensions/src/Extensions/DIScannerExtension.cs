@@ -68,7 +68,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
             {
                 if (transientServiceType.IsAssignableFrom(transientService.Service))
                 {
-                    _ = services.AddScoped(transientService.Service, transientService.Implementation);
+                    _ = services.AddTransient(transientService.Service, transientService.Implementation);
                 }
             }
 
@@ -76,7 +76,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
             {
                 if (singletonServiceType.IsAssignableFrom(singletonService.Service))
                 {
-                    _ = services.AddScoped(singletonService.Service, singletonService.Implementation);
+                    _ = services.AddSingleton(singletonService.Service, singletonService.Implementation);
                 }
             }
 
