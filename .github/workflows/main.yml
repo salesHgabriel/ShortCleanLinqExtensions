@@ -14,7 +14,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace}}/ShortCleanLinqExtensions/ShortCleanLinqExtensions
+  NuGetDirectory: ${{ github.workspace}}/ShortCleanLinqExtensions
 
 defaults:
   run:
@@ -33,7 +33,7 @@ jobs:
       uses: actions/setup-dotnet@v4
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
-    - run: dotnet pack --configuration Release
+    - run: cd ${{ env.NuGetDirectory }} && dotnet pack --configuration Release
 
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
@@ -71,12 +71,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Check path
-      run: cd ${{ github.workspace}} && ls
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
     - name: Run tests
-      run: dotnet test --configuration Release
+      run: cd ${{ env.NuGetDirectory }} &&  dotnet test --configuration Release
 
   deploy:
     # Publish only when creating a GitHub Release
