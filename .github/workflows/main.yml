@@ -14,7 +14,7 @@ on:
 env:
   DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
   DOTNET_NOLOGO: true
-  NuGetDirectory: ${{ github.workspace}}/ShortCleanLinqExtensions
+  NuGetDirectory: ${{ github.workspace}}
 
 defaults:
   run:
@@ -75,6 +75,8 @@ jobs:
       uses: actions/setup-dotnet@v4
     - name: Run tests
       run: dotnet test --configuration Release
+    - name: Check path
+      run: cd ${{ github.workspace}} && ls -la
 
   deploy:
     # Publish only when creating a GitHub Release
