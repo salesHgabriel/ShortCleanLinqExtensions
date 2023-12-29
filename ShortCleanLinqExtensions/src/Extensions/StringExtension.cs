@@ -1,6 +1,4 @@
-﻿
-using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -10,9 +8,10 @@ namespace ShortCleanLinqExtensions.src.Extensions
     public static class StringExtension
     {
         #region VARIABLES
-        private static Dictionary<string, Dictionary<string, string>> _snakeCache = new Dictionary<string, Dictionary<string, string>>();
-        #endregion VARIABLES
 
+        private static Dictionary<string, Dictionary<string, string>> _snakeCache = new Dictionary<string, Dictionary<string, string>>();
+
+        #endregion VARIABLES
 
         /// <summary>
         ///  the method converts the given string to Title Case
@@ -22,9 +21,9 @@ namespace ShortCleanLinqExtensions.src.Extensions
         public static string Title(this string text)
         {
             string cultureName = CultureInfo.CurrentCulture.Name ?? "en-US";
-            
+
             var textinfo = new CultureInfo(cultureName, false).TextInfo;
-            
+
             return textinfo.ToTitleCase(text);
         }
 
@@ -54,7 +53,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
                     dictionary[pair.Key] = separator + pair.Value + separator;
                 }
 
-                title = title.Replace(dictionary.Keys?.ToString(), dictionary.Values.ToString());
+                title = title.Replace(dictionary.Keys?.ToString() ?? string.Empty, dictionary.Values.ToString());
             }
 
             // Remove all characters that are not the separator, letters, numbers, or whitespace
@@ -186,8 +185,5 @@ namespace ShortCleanLinqExtensions.src.Extensions
                 return false;
             }
         }
-
-
-
     }
 }

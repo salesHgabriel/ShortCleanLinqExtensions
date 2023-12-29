@@ -11,10 +11,10 @@ namespace ShortCleanLinqExtensions.src.Utils.PaginatorHelper
         public Response()
         {
         }
-        public Response(T data)
+        public Response(T? data)
         {
             Data = data;
         }
-        public T Data { get; set; }
+        public T? Data { get; set; }
     }
 }
