@@ -40,7 +40,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
 
             if (request is not null && httpContextAccessor is not null)
             {
-                var route = request.Path.Value;
+                var route = request.Path.Value!;
 
                 string url = string.Concat(httpContextAccessor?.HttpContext?.Request.Scheme, "://", httpContextAccessor?.HttpContext?.Request.Host.ToUriComponent());
 
