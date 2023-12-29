@@ -33,7 +33,7 @@ jobs:
       uses: actions/setup-dotnet@v4
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
-    - run: cd ${{ env.NuGetDirectory }} && cd .. && dotnet pack --configuration Release
+    - run: cd ${{ env.NuGetDirectory }} && dotnet pack --configuration Release
 
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
