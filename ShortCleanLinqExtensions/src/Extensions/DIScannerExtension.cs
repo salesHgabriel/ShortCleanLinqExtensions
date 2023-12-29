@@ -84,7 +84,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
         }
 
         /// <summary>
-        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService or ISingletonService) and apply register using nuget scrutor
+        /// When add extension method you can automatic read all you interface extend interfaces (IScopedService, ISingletonService or ITransienteService) and apply register using nuget scrutor
         /// </summary>
         /// <param name="services"></param>
         /// <returns></returns>
