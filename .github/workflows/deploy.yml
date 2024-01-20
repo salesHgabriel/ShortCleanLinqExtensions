@@ -47,4 +47,4 @@ jobs:
       run: dotnet pack --configuration Release --output nupkgs
    
     - name: Publish NuGet package
-      run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
