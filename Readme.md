@@ -118,6 +118,15 @@ var newListFiltered = listC1
     .ToList();
 // Output: [4]
 
+# WhenInclude
+bool condition = true;
+var newListFiltered = listC1
+    .AsQueryable()
+    .WhenInclude(condition, l => l.NavigationProperty.Property)
+    .Select(l => l.NavigationProperty.Property)
+    .ToArray();
+// Output: [Property, Property]
+
 
 # Diff
 List<int> firstList = new List<int>() { 1, 2, 3, 4, 5 };
