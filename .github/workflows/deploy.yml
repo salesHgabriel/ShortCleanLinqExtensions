@@ -44,8 +44,7 @@ jobs:
       run: dotnet test --no-build --verbosity normal
 
     - name: Create package
-      run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
+      run: dotnet pack --configuration Release --output nupkgs
    
     - name: Publish NuGet package
-      run: |
-          cd ${{ env.NuGetDirectory }} && dotnet nuget push *.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
+      run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
