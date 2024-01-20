@@ -37,7 +37,7 @@ jobs:
 
     # Create the NuGet package in the folder from the environment variable NuGetDirectory
     - run: dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
-
+    - run: ls -la ${{ env.NuGetDirectory }}
     # Publish the NuGet package as an artifact, so they can be used in the following jobs
     - uses: actions/upload-artifact@v3
       with:
@@ -54,9 +54,10 @@ jobs:
       # Install the .NET SDK indicated in the global.json file
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
-
+        
       # Download the NuGet package created in the previous job
       - uses: actions/download-artifact@v3
+        
         with:
           name: nuget
           path: ${{ env.NuGetDirectory }}
