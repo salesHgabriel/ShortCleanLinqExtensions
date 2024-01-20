@@ -48,5 +48,4 @@ jobs:
    
     - name: Publish NuGet package
       run: |
-          cd ${{ env.NuGetDirectory }} && ls -la
-          dotnet nuget push ${{ env.NuGetDirectory }}/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
+          cd ${{ env.NuGetDirectory }} && dotnet nuget push *.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json
