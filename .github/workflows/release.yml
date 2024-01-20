@@ -21,8 +21,8 @@ jobs:
     - name: Archive NuGet Package
       uses: actions/upload-artifact@v1
       with:
-        name: ShortCleanLinqExtensions.AspNetCore
-        path: ./ShortCleanLinqExtensions/ShortCleanLinqExtensions.AspNetCore/bin/Release/ShortCleanLinqExtensions.AspNetCore.${{ github.event.release.tag_name }}.nupkg
+        name: ShortCleanLinqExtensions
+        path: ./ShortCleanLinqExtensions/ShortCleanLinqExtensions/bin/Release/ShortCleanLinqExtensions.${{ github.event.release.tag_name }}.nupkg
     - name: Archive NuGet Package
       uses: actions/upload-artifact@v1
       with:
