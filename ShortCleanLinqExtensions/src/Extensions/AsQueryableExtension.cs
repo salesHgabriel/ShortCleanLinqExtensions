@@ -1,7 +1,12 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using ShortCleanLinqExtensions.src.Utils.PaginatorHelper;
+using System.Collections;
 using System.Linq.Expressions;
+using System.Reflection;
 
 namespace ShortCleanLinqExtensions.src.Extensions
 {
@@ -83,6 +88,28 @@ namespace ShortCleanLinqExtensions.src.Extensions
             return source;
         }
 
+        /// <summary>
+        /// The when method will execute the given callback when the first argument given to the method evaluates to true and include navigation query.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <typeparam name="P"></typeparam>
+        /// <param name="source"></param>
+        /// <param name="conditional"></param>
+        /// <param name="navigationPropertyPath"></param>
+        /// <returns></returns>
+        public static IQueryable<T> WhenInclude<T, P>(this IQueryable<T> source, bool conditional, Expression<Func<T, P>> navigationPropertyPath)
+        {
+            if (conditional)
+            {
+                return source.Provider.CreateQuery<T>(
+                             Expression.Call(
+                                 instance: null,
+                                 method: IncludeMethodInfo.MakeGenericMethod(typeof(T), typeof(P)),
+                                 arguments: [source.Expression, Expression.Quote(navigationPropertyPath)]));
+            }
+            return source;
+        }
+
         #region PRIVATE METHODS
 
         private static Uri GetPageUri(int page = 1, int limit = 15, string baseUri = "https://localhost/", string route = "/not-found")
@@ -92,6 +119,43 @@ namespace ShortCleanLinqExtensions.src.Extensions
             modifiedUri = QueryHelpers.AddQueryString(modifiedUri, "limit", limit.ToString());
             return new Uri(modifiedUri);
         }
+
+        private sealed class IncludableQueryable<TEntity, TProperty> : IIncludableQueryable<TEntity, TProperty>, IAsyncEnumerable<TEntity>
+        {
+            private readonly IQueryable<TEntity> _queryable;
+
+            public IncludableQueryable(IQueryable<TEntity> queryable)
+            {
+                _queryable = queryable;
+            }
+
+            public Expression Expression
+                => _queryable.Expression;
+
+            public Type ElementType
+                => _queryable.ElementType;
+
+            public IQueryProvider Provider
+                => _queryable.Provider;
+
+            public IAsyncEnumerator<TEntity> GetAsyncEnumerator(CancellationToken cancellationToken = default)
+                => ((IAsyncEnumerable<TEntity>)_queryable).GetAsyncEnumerator(cancellationToken);
+
+            public IEnumerator<TEntity> GetEnumerator()
+                => _queryable.GetEnumerator();
+
+            IEnumerator IEnumerable.GetEnumerator()
+                => GetEnumerator();
+        }
+
+        internal static readonly MethodInfo IncludeMethodInfo
+        = typeof(EntityFrameworkQueryableExtensions)
+           .GetTypeInfo().GetDeclaredMethods(nameof(WhenInclude))
+           .Single(
+               mi =>
+                   mi.GetGenericArguments().Length == 2
+                   && mi.GetParameters().Any(
+                       pi => pi.Name == "navigationPropertyPath" && pi.ParameterType != typeof(string)));
 
         #endregion PRIVATE METHODS
     }
