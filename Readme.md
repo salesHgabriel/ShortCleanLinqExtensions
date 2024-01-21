@@ -7,13 +7,13 @@ Sce is a .NET Nuget extensions to make things easier.
 .NET CLI
 
 ```bash
-dotnet add package ShortCleanLinqExtensions --version 1.0.5
+dotnet add package ShortCleanLinqExtensions --version 1.0.6
 ```
 
 Package Manager Console
 
 ```bash
-NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.5
+NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.6
 ```
 
 ## Usage
@@ -127,6 +127,10 @@ var newListFiltered = listC1
     .ToArray();
 // Output: [Property, Property]
 
+params = Support.DateTime.Type.Machine || Support.DateTime.Type.UTC (default)
+Now(params)
+
+//Output: 01/21/2024 18:30:24
 
 # Diff
 List<int> firstList = new List<int>() { 1, 2, 3, 4, 5 };
