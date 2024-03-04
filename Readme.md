@@ -2,19 +2,7 @@
 
 Sce is a .NET Nuget extensions to make things easier.
 
-## Installation
-
-.NET CLI
-
-```bash
-dotnet add package ShortCleanLinqExtensions --version 1.0.6
-```
-
-Package Manager Console
-
-```bash
-NuGet\Install-Package ShortCleanLinqExtensions -Version 1.0.6
-```
+[![Nuget](https://img.shields.io/nuget/v/ShortCleanLinqExtensions)](https://www.nuget.org/packages/ShortCleanLinqExtensions/)
 
 ## Usage
 
