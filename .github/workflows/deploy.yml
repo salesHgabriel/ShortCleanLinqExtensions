@@ -43,16 +43,20 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
+    - name: Semantic Release
+      id: semantic
+      uses: cycjimmy/semantic-release-action@v2
+      with:
+        semantic_version: 18.0.1
+        extra_plugins: |
+          @semantic-release/changelog
+          @semantic-release/github
+          @semantic-release/git
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    
     - name: Create package
       run: dotnet pack --configuration Release --output nupkgs
    
-    - name: Publish NuGet package
+    - name: Publish NuGet package to nuget.org
       run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
-
-    - uses: actions/checkout@v3
-    - name: Create a Release
-      uses: elgohr/Github-Release-Action@v5
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        title: MyReleaseMessage
