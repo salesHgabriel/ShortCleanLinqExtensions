@@ -50,9 +50,11 @@ jobs:
       run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
 
     - name: Create Github release
-      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.run_number }}
-        release_name: Release ${{ github.run_number }}
+        tag: ${{ github.ref_name }}
+      run: |
+        gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
+            --generate-notes
