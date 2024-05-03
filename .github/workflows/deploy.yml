@@ -2,61 +2,53 @@ name: .NET Build, Test, and Publish Nuget Package
 
 on:
   push:
-    branches:
-      - "**"
-    tags: 
-      - "v*"
-  pull_request:
-    branches:
-      - "**"
+    branches: [ master ]
+
 env:
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 1
-  DOTNET_NOLOGO: true
-  NuGetDirectory: ./ShortCleanLinqExtensions
+  REPOSITORY_URL: https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json
+  CURRENT_REPO_URL: https://github.com/${{ github.repository }}
 
-defaults:
-  run:
-    working-directory: ./ShortCleanLinqExtensions
-    
 jobs:
-  build:
+  publish:
     runs-on: ubuntu-latest
+
     steps:
-    - uses: actions/checkout@v3
-    - name: Set Version Variable
-      if: ${{ github.ref_type == 'tag' }}
-      env:
-        TAG: ${{ github.ref_name }}
-      run: echo "VERSION=${TAG#v}" >> $GITHUB_ENV
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v2
-      with:
-        dotnet-version: 8.0.x
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: |
+            7.0.x
+            6.0.x
+            5.0.x
+            3.1.x
+            3.0.x
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build
-      run: dotnet build --no-restore 
+      - name: Build
+        run: dotnet build --no-restore
 
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+      - name: Test
+        run: dotnet test
 
-    - name: Semantic Release
-      id: semantic
-      uses: cycjimmy/semantic-release-action@v2
-      with:
-        semantic_version: 17
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/github
-          @semantic-release/git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
-    - name: Create package
-      run: dotnet pack --configuration Release --output nupkgs
-   
-    - name: Publish NuGet package to nuget.org
-      run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v2
+        with:
+          semantic_version: 18.0.1
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/github
+            @semantic-release/git
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Generate Package
+        run: dotnet pack -c Release -o out -p:PackageVersion=${{ steps.semantic.outputs.new_release_version }} -p:RepositoryUrl=${{env.CURRENT_REPO_URL}}
+
+      - name: Publish the package to nuget.org
+        run: dotnet nuget push ./out/*.nupkg --skip-duplicate --no-symbols true -k ${{ secrets.NUGET_APIKEY}} -s https://api.nuget.org/v3/index.json
