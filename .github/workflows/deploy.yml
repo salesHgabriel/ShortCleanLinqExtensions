@@ -32,11 +32,21 @@ jobs:
       - name: Test
         run: dotnet test
 
-      - name: Semantic Release
-        id: semantic
-        uses: cycjimmy/semantic-release-action@v2
+      - name: Setup node to create release 
+        uses: actions/setup-node@v2
         with:
-          semantic_version: 17
+            node-version: '14'
+
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v2.5.4
+        with:
+          semantic_version: 18.0.0
+          extra_plugins: |
+            @semantic-release/commit-analyzer@8.0.1
+            @semantic-release/release-notes-generator@9.0.3
+            @semantic-release/changelog@5.0.1
+            @semantic-release/github@7.2.3
+            @semantic-release/git@9.0.0
 
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
