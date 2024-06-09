@@ -24,7 +24,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
         /// <param name="page"></param>
         /// <param name="limit"></param>
         /// <returns>PagedResponse</returns>
-        public static PagedResponse<List<T>> Paginate<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
+        public static PagedResponse<T> Paginate<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
         {
             page = page <= 1 ? 1 : page;
 
@@ -36,9 +36,10 @@ namespace ShortCleanLinqExtensions.src.Extensions
 
             var listPaginated = items
               .Skip((page - 1) * limit)
-              .Take(limit);
+              .Take(limit)
+              .ToList();
 
-            var respose = new PagedResponse<List<T>>(listPaginated.ToList(), page, limit);
+            var respose = new PagedResponse<T>(listPaginated, page, limit);
 
             var totalPages = ((double)total / (double)limit);
 
@@ -49,8 +50,6 @@ namespace ShortCleanLinqExtensions.src.Extensions
                 var route = request.Path.Value!;
 
                 string url = string.Concat(httpContextAccessor?.HttpContext?.Request.Scheme, "://", httpContextAccessor?.HttpContext?.Request.Host.ToUriComponent());
-
-                // Uri uri = GetPageUri(page, limit, url, route);
 
                 respose.NextPage =
                     page >= 1 && page < roundedTotalPages
@@ -72,7 +71,7 @@ namespace ShortCleanLinqExtensions.src.Extensions
             return respose;
         }
 
-        public static async Task<PagedResponse<List<T>>> PaginateAsync<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
+        public static async Task<PagedResponse<T>> PaginateAsync<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
         {
             page = page <= 1 ? 1 : page;
 
@@ -81,11 +80,12 @@ namespace ShortCleanLinqExtensions.src.Extensions
             var total = await items
                 .CountAsync();
 
-            var listPaginated = items
+            var listPaginated = await items
               .Skip((page - 1) * limit)
-              .Take(limit);
+              .Take(limit)
+              .ToListAsync();
 
-            var respose = new PagedResponse<List<T>>(await listPaginated.ToListAsync(), page, limit);
+            var respose = new PagedResponse<T>(listPaginated, page, limit);
 
             var totalPages = ((double)total / (double)limit);
 

@@ -1,12 +1,12 @@
 ﻿namespace ShortCleanLinqExtensions.src.Utils.PaginatorHelper
 {
-    public class PagedResponse<T> : Response<T>
+    public class PagedResponse<T>
     {
-        public PagedResponse(T data, int page, int limit)
+        public PagedResponse(IEnumerable<T> data, int page, int limit)
         {
             Page = page;
             Limit = limit;
-            Data = data;
+            Records = data;
         }
 
         public int Page { get; set; }
@@ -16,6 +16,8 @@
         public int Total { get; set; }
         public Uri? NextPage { get; set; }
         public Uri? PreviousPage { get; set; }
+        public int CurrentPageSize => Records.Count();
+        public IEnumerable<T> Records { get; }
 
         public string Links()
         {

@@ -37,7 +37,7 @@ namespace ShortCleanLinqExtensions.Test.src.Extensions
                 .AsQueryable()
                 .Paginate(page, limit);
 
-            var expectedListPaginated = new PagedResponse<List<string>>(list, page, limit);
+            var expectedListPaginated = new PagedResponse<string>(list, page, limit);
 
             Assert.IsType(listPagineted.GetType(), expectedListPaginated);
         }
