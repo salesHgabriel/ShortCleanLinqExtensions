@@ -5,7 +5,7 @@ on:
     branches:
       - "**"
     tags: 
-      - "v*"
+      - "v[0-9]+.[0-9]+.[0-9]+"
   pull_request:
     branches:
       - "**"
@@ -43,25 +43,16 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
 
-    - name: Setup node to create release 
-      uses: actions/setup-node@v2
-      with:
-            node-version: '20'
-
-    - name: Semantic Release
-      id: semantic
-      uses: cycjimmy/semantic-release-action@v2
-      with:
-        semantic_version: 18.0.1
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/github
-          @semantic-release/git
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    
     - name: Create package
       run: dotnet pack --configuration Release --output nupkgs
    
-    - name: Publish NuGet package to nuget
+    - name: Publish NuGet package
       run: dotnet nuget push nupkgs/*.nupkg -k ${{ secrets.NUGET_APIKEY }} -s https://api.nuget.org/v3/index.json --skip-duplicate
+
+    - name: Create Github release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.run_number }}
+        release_name: Release ${{ github.run_number }}

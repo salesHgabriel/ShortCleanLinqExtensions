@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using ShortCleanLinqExtensions.src.Utils.PaginatorHelper;
 using System.Collections;
 using System.Linq.Expressions;
@@ -28,6 +27,8 @@ namespace ShortCleanLinqExtensions.src.Extensions
         public static PagedResponse<List<T>> Paginate<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
         {
             page = page <= 1 ? 1 : page;
+
+            limit = limit is > 100 or <= 0 ? 100 : limit;
 
             var total = items
                 .ToList()
@@ -70,6 +71,52 @@ namespace ShortCleanLinqExtensions.src.Extensions
 
             return respose;
         }
+
+        public static async Task<PagedResponse<List<T>>> PaginateAsync<T>(this IQueryable<T> items, int page = 1, int limit = 15, HttpRequest? request = null, IHttpContextAccessor? httpContextAccessor = null)
+        {
+            page = page <= 1 ? 1 : page;
+
+            limit = limit is > 100 or <= 0 ? 100 : limit;
+
+            var total = await items
+                .CountAsync();
+
+            var listPaginated = items
+              .Skip((page - 1) * limit)
+              .Take(limit);
+
+            var respose = new PagedResponse<List<T>>(await listPaginated.ToListAsync(), page, limit);
+
+            var totalPages = ((double)total / (double)limit);
+
+            int roundedTotalPages = Convert.ToInt32(Math.Ceiling(totalPages));
+
+            if (request is not null && httpContextAccessor is not null)
+            {
+                var route = request.Path.Value!;
+
+                string url = string.Concat(httpContextAccessor?.HttpContext?.Request.Scheme, "://", httpContextAccessor?.HttpContext?.Request.Host.ToUriComponent());
+
+                respose.NextPage =
+                    page >= 1 && page < roundedTotalPages
+                    ? GetPageUri(page + 1, limit, url, route)
+                    : null;
+
+                respose.PreviousPage =
+                    page - 1 >= 1 && page <= roundedTotalPages
+                    ? GetPageUri(page - 1, limit, url, route)
+                    : null;
+
+                respose.FirstPage = GetPageUri(1, limit, url, route);
+
+                respose.LastPage = GetPageUri(roundedTotalPages, limit, url, route);
+            }
+
+            respose.Total = total;
+
+            return respose;
+        }
+
 
         /// <summary>
         /// The when method will execute the given callback when the first argument given to the method evaluates to true.
