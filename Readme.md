@@ -128,6 +128,13 @@ IEnumerable<int> diff = firstList.Diff(secondList);
 // Output: String.Join(',', diff) => 1,3,5
 ```
 
+# WhereNull
+To fixed error "Value cannot be null. Parameter name: source"
+ var listPossibleNull = list.WhereNull(i => i == Guid.Empty); 
+
+// Output: Same value of source, in the case is null
+```
+
 ```csharp
 
 # Automatic dependency injection scanner 
